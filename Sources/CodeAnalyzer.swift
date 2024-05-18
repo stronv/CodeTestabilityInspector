@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftParser
 
 public class CodeAnalyzer {
     public init() {}

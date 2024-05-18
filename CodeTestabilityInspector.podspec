@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'CodeTestabilityInspector'
-  s.version = '1.0.1'
+  s.version = '1.0.2'
   s.license = 'MIT'
   s.summary = 'A framework for testing the testability of Swift code.'
   s.homepage = 'https://github.com/stronv/CodeTestabilityInspector'
@@ -12,4 +12,6 @@ Pod::Spec.new do |s|
   s.platform = :ios, '14.0'
 
   s.dependency 'SwiftLint'
+  s.dependency 'SwiftSyntax'
+  s.dependency 'SwiftParser'
 end
