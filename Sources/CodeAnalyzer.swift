@@ -2,23 +2,31 @@
 //  CodeAnalyzer.swift
 //  CodeTestabilityInspector
 //
-//  Created by Artyom Tabachenko on 05.05.2024.
+//  Created by Artyom Tabachenko on 18.05.2024.
 //
 
 import Foundation
 
 public class CodeAnalyzer {
-    public func readFile(_ fileName: String) {
-        if let filePath = Bundle.main.path(forResource: fileName, ofType: "swift") {
-            do {
-                let fileContents = try String(contentsOfFile: filePath)
-                print("Contents of \(fileName).swift:")
-                print(fileContents)
-            } catch {
-                print("Error reading file: \(error.localizedDescription)")
-            }
-        } else {
-            print("File not found: \(fileName).swift")
+    public init() {}
+    
+    public func calculateCyclomaticComplexity(atPath path: String) -> Int {
+        let reader = CyclomaticComplexityVisitor(viewMode: .all)
+        let content: String = readSwiftFile(atPath: path) ?? "Error to read .swift file"
+        let complexity = reader.calculateCyclomaticComplexity(atPath: content)
+        print("The code complexity is equal to: \(complexity)")
+        return complexity
+    }
+}
+
+private extension CodeAnalyzer {
+    private func readSwiftFile(atPath path: String) -> String? {
+        do {
+            let content = try String(contentsOfFile: path, encoding: .utf8)
+            return content
+        } catch {
+            print("Error reading file: \(error.localizedDescription)")
+            return nil
         }
     }
 }
