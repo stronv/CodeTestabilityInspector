@@ -55,16 +55,19 @@ class CyclomaticComplexityVisitor: SyntaxVisitor {
     override func visit(_ node: ThrowStmtSyntax) -> SyntaxVisitorContinueKind {
         return .visitChildren
     }
-    
-     func calculateCyclomaticComplexity(atPath filePath: String) -> Int {
-        do {
-            let sourceFile = try Parser.parse(source: filePath)
-            let visitor = CyclomaticComplexityVisitor(viewMode: .all)
-            visitor.walk(sourceFile)
-            return visitor.complexity
-        } catch {
-            print("Error parsing content: \(error)")
-            return -1
-        }
-    }
+}
+
+extension CyclomaticComplexityVisitor {
+    func calculateCyclomaticComplexity(atPath filePath: String) -> Int {
+       do {
+           let sourceFile = try Parser.parse(source: filePath)
+           let visitor = CyclomaticComplexityVisitor(viewMode: .all)
+           visitor.walk(sourceFile)
+           print("The code complexity is equal to: \(visitor.complexity)")
+           return visitor.complexity
+       } catch {
+           print("Error parsing content: \(error)")
+           return -1
+       }
+   }
 }
