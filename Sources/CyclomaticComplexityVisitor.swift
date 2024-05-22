@@ -60,14 +60,11 @@ class CyclomaticComplexityVisitor: SyntaxVisitor {
 extension CyclomaticComplexityVisitor {
     func calculateCyclomaticComplexity(atPath filePath: String) -> Int {
        do {
-           let sourceFile = try Parser.parse(source: filePath)
+           let sourceFile = Parser.parse(source: filePath)
            let visitor = CyclomaticComplexityVisitor(viewMode: .all)
            visitor.walk(sourceFile)
            print("The code complexity is equal to: \(visitor.complexity)")
            return visitor.complexity
-       } catch {
-           print("Error parsing content: \(error)")
-           return -1
        }
    }
 }

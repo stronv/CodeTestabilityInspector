@@ -92,7 +92,7 @@ class MetricsCollector: SyntaxVisitor {
 extension MetricsCollector {
     func analyzeFile(atPath filePath: String) -> Double {
         do {
-            let sourceFile = try Parser.parse(source: filePath)
+            let sourceFile = Parser.parse(source: filePath)
             let metricsCollector = MetricsCollector(viewMode: .all)
             metricsCollector.walk(sourceFile)
 
@@ -106,9 +106,6 @@ extension MetricsCollector {
 
             print("Maintainability Index: \(mi)")
             return mi
-        } catch {
-            print("Error parsing file: \(error)")
-            return -1
-        }
+        } 
     }
 }

@@ -62,7 +62,7 @@ class CohesionCouplingAnalyzer: SyntaxVisitor {
 extension CohesionCouplingAnalyzer {
     func analyzeFile(atPath filePath: String) {
         do {
-            let sourceFile = try Parser.parse(source: filePath)
+            let sourceFile = Parser.parse(source: filePath)
             let analyzer = CohesionCouplingAnalyzer(viewMode: .all)
             analyzer.walk(sourceFile)
             
@@ -71,8 +71,6 @@ extension CohesionCouplingAnalyzer {
             
             print("Cohesion: \(cohesion)")
             print("Coupling: \(coupling)")
-        } catch {
-            print("Error parsing file: \(error)")
         }
     }
 }
