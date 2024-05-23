@@ -103,8 +103,6 @@ extension MetricsCollector {
             let commentPercentage = Double(comments) / Double(loc) * 100
 
             let mi = 171 - 5.2 * log(halsteadVolume) - 0.23 * Double(cc) - 16.2 * log(Double(loc)) + 50 * sin(sqrt(2.4 * commentPercentage))
-
-            print("Maintainability Index: \(mi)")
             return mi
         } 
     }

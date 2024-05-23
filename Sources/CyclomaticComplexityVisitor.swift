@@ -63,7 +63,6 @@ extension CyclomaticComplexityVisitor {
            let sourceFile = Parser.parse(source: filePath)
            let visitor = CyclomaticComplexityVisitor(viewMode: .all)
            visitor.walk(sourceFile)
-           print("The code complexity is equal to: \(visitor.complexity)")
            return visitor.complexity
        }
    }

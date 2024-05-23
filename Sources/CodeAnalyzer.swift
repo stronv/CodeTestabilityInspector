@@ -31,7 +31,24 @@ public class CodeAnalyzer {
         return analyzer.analyzeCohesionAndCoupling(atPath: content)
     }
     
-    public func analyzeTestability(atPath filePath: String) -> CodeTestability {
+    public func analyzeCodeTestability(atPath filePath: String) {
+        let testability = analyzeTestability(atPath: filePath)
+        print(testability.description)
+    }
+}
+
+private extension CodeAnalyzer {
+    func readSwiftFile(atPath path: String) -> String? {
+        do {
+            let content = try String(contentsOfFile: path, encoding: .utf8)
+            return content
+        } catch {
+            print("Error reading file: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+    func analyzeTestability(atPath filePath: String) -> CodeTestability {
         let mi = calculateTheMaintainabilityIndex(atPath: filePath)
         let (cohesion, coupling) = calculateCohesionAndCoupling(atPath: filePath)
         let cc = calculateCyclomaticComplexity(atPath: filePath)
@@ -55,16 +72,5 @@ public class CodeAnalyzer {
             return .poorlyTestable
         }
     }
-}
-
-private extension CodeAnalyzer {
-    private func readSwiftFile(atPath path: String) -> String? {
-        do {
-            let content = try String(contentsOfFile: path, encoding: .utf8)
-            return content
-        } catch {
-            print("Error reading file: \(error.localizedDescription)")
-            return nil
-        }
-    }
+    
 }
