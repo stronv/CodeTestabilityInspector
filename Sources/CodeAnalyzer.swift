@@ -18,17 +18,42 @@ public class CodeAnalyzer {
         return complexity
     }
     
-    public func calculateConnectivityAndConnectivity(atPath path: String) -> Double {
+    public func calculateTheMaintainabilityIndex(atPath path: String) -> Double {
         let content = readSwiftFile(atPath: path) ?? "Error to read .swift file"
         let collector = MetricsCollector(viewMode: .all)
         let result = collector.analyzeFile(atPath: content)
         return result
     }
     
-    public func calcualteCohesionAndCoupling(atPath path: String) {
+    public func calculateCohesionAndCoupling(atPath path: String) -> (cohesion: Double, coupling: Double) {
         let content = readSwiftFile(atPath: path) ?? "Error to read .swift file"
         let analyzer = CohesionCouplingAnalyzer(viewMode: .all)
-        analyzer.analyzeFile(atPath: content)
+        return analyzer.analyzeCohesionAndCoupling(atPath: content)
+    }
+    
+    public func analyzeTestability(atPath filePath: String) -> CodeTestability {
+        let mi = calculateTheMaintainabilityIndex(atPath: filePath)
+        let (cohesion, coupling) = calculateCohesionAndCoupling(atPath: filePath)
+        let cc = calculateCyclomaticComplexity(atPath: filePath)
+
+        // Условные значения для классификации тестируемости кода
+        let miThresholds = (excellent: 85.0, good: 65.0)
+        let cohesionThresholds = (excellent: 80, good: 50)
+        let couplingThresholds = (excellent: 20, good: 50)
+        let ccThresholds = (excellent: 10, good: 20)
+        
+        print("The Maintainability Index is equal to: \(mi)")
+        print("The cohesion is equal to: \(cohesion)")
+        print("The coupling is equal to: \(coupling)")
+        print("The cyclomatic complexity is equal to: \(cc)")
+        
+        if mi >= miThresholds.excellent && Int(cohesion) >= cohesionThresholds.excellent && Int(coupling) <= couplingThresholds.excellent && cc <= ccThresholds.excellent {
+            return .excellentlyTestable
+        } else if mi >= miThresholds.good && Int(cohesion) >= cohesionThresholds.good && Int(coupling) <= couplingThresholds.good && cc <= ccThresholds.good {
+            return .wellTestable
+        } else {
+            return .poorlyTestable
+        }
     }
 }
 
