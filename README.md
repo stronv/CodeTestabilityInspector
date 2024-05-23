@@ -22,7 +22,7 @@ To integrate CodeTestabilityInspector into your Xcode project using CocoaPods, s
 
 ```ruby
 source 'gh repo clone stronv/CodeTestabilityInspector'
-platform :ios, '10.0'
+platform :ios, '14.0'
 use_frameworks!
 
 target '<Your Target Name>' do
@@ -51,8 +51,9 @@ class MyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         analyzer.calculateCyclomaticComplexity(atPath: filePath)
-        analyzer.calculateConnectivityAndConnectivity(atPath: filePath)
+        analyzer.calculateTheMaintainabilityIndex(atPath: filePath)
         analyzer.calcualteCohesionAndCoupling(atPath: filePath)
+        analyzer.analyzeCodeTestability(atPath: filePath)
     }
 }
 ```
